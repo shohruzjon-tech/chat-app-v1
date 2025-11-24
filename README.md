@@ -138,7 +138,7 @@ The app requires a backend server for full functionality. See [BACKEND_SETUP.md]
 - **Socket.io Client**: Real-time communication
 - **i18n-js**: Internationalization
 - **Expo Localization**: Device locale detection
-- **Crypto-js**: Client-side encryption
+- **Crypto-js**: Client-side encryption utilities
 - **Expo Notifications**: Push notifications
 
 ### Backend (See BACKEND_SETUP.md)
@@ -146,7 +146,7 @@ The app requires a backend server for full functionality. See [BACKEND_SETUP.md]
 - **MongoDB**: Database
 - **Mongoose**: ODM
 - **Socket.io**: WebSocket server
-- **Twilio**: SMS authentication
+- **Twilio**: SMS authentication (server-side only)
 - **JWT**: Token-based authentication
 
 ## Key Features Explained
@@ -211,16 +211,34 @@ Telegram-inspired theme with customizable colors:
 
 ## Security Considerations
 
-⚠️ **Important Security Notes**:
+⚠️ **Critical Security Notes**:
 
-1. **Never expose Twilio credentials** in client-side code
-2. Implement authentication on the backend
-3. Use HTTPS/WSS in production
-4. Validate all inputs
-5. Implement rate limiting
-6. Use proper E2EE protocols in production
-7. Secure WebSocket connections
-8. Implement proper token refresh mechanisms
+1. **Server-Side Authentication Required**
+   - All Twilio operations MUST be server-side only
+   - Never expose Twilio credentials in client code
+   - Use backend API for SMS sending and verification
+   - Client should only make HTTP/HTTPS requests to your backend
+
+2. **Environment Variables**
+   - Only use `EXPO_PUBLIC_` prefix for non-sensitive data
+   - Never expose API keys, secrets, or credentials client-side
+   - Twilio credentials should ONLY exist in server environment variables
+
+3. **End-to-End Encryption**
+   - Current implementation is a PLACEHOLDER only
+   - For production, implement Signal Protocol or similar
+   - Use proper key exchange (Diffie-Hellman/ECDH)
+   - Implement forward secrecy and key rotation
+   - Store keys in secure device storage (Keychain/Keystore)
+
+4. **Other Security Best Practices**
+   - Use HTTPS/WSS in production
+   - Implement rate limiting on backend
+   - Validate all inputs client and server-side
+   - Use secure token storage (expo-secure-store)
+   - Implement proper JWT token refresh mechanisms
+   - Use certificate pinning for API calls
+   - Sanitize all user-generated content
 
 ## Roadmap
 

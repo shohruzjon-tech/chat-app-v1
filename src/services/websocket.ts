@@ -1,7 +1,7 @@
 import { io, Socket } from 'socket.io-client';
 import { store } from '../store';
 import { addMessage, updateMessageStatus, setTyping } from '../store/chatSlice';
-import { Message } from '../store/chatSlice';
+import { Message } from '../types';
 
 class WebSocketService {
   private socket: Socket | null = null;

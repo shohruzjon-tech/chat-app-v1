@@ -3,19 +3,34 @@ import CryptoJS from 'crypto-js';
 /**
  * Encryption Service for End-to-End Encryption
  * 
- * PLACEHOLDER: This is a basic implementation for demonstration.
- * In production, use proper E2EE protocols like Signal Protocol.
+ * IMPORTANT SECURITY NOTE:
+ * This is a PLACEHOLDER implementation for demonstration purposes only.
+ * 
+ * For production, you MUST implement a proper E2EE protocol such as:
+ * - Signal Protocol (recommended)
+ * - Double Ratchet Algorithm
+ * - X3DH (Extended Triple Diffie-Hellman)
+ * 
+ * DO NOT use this implementation in production as it has security flaws:
+ * - No proper key exchange mechanism
+ * - Single encryption key is insecure
+ * - No forward secrecy
+ * - No key rotation
+ * - Vulnerable to key compromise
  */
 class EncryptionService {
-  private readonly defaultKey = process.env.EXPO_PUBLIC_ENCRYPTION_KEY || 'default-encryption-key';
-
   /**
    * Encrypt a message using AES encryption
+   * WARNING: In production, use proper E2EE with unique per-chat keys
+   * @param message - The message to encrypt
+   * @param key - The encryption key (should be unique per chat in production)
    */
-  encryptMessage(message: string, key?: string): string {
+  encryptMessage(message: string, key: string): string {
     try {
-      const encryptionKey = key || this.defaultKey;
-      const encrypted = CryptoJS.AES.encrypt(message, encryptionKey).toString();
+      if (!key || key.length < 16) {
+        throw new Error('Encryption key must be at least 16 characters');
+      }
+      const encrypted = CryptoJS.AES.encrypt(message, key).toString();
       return encrypted;
     } catch (error) {
       console.error('Encryption error:', error);
@@ -25,15 +40,19 @@ class EncryptionService {
 
   /**
    * Decrypt a message using AES decryption
+   * @param encryptedMessage - The encrypted message
+   * @param key - The encryption key (must match the encryption key)
    */
-  decryptMessage(encryptedMessage: string, key?: string): string {
+  decryptMessage(encryptedMessage: string, key: string): string {
     try {
-      const encryptionKey = key || this.defaultKey;
-      const bytes = CryptoJS.AES.decrypt(encryptedMessage, encryptionKey);
+      if (!key || key.length < 16) {
+        throw new Error('Decryption key must be at least 16 characters');
+      }
+      const bytes = CryptoJS.AES.decrypt(encryptedMessage, key);
       const decrypted = bytes.toString(CryptoJS.enc.Utf8);
       
       if (!decrypted) {
-        throw new Error('Decryption failed');
+        throw new Error('Decryption failed - invalid key or corrupted data');
       }
       
       return decrypted;
@@ -45,9 +64,20 @@ class EncryptionService {
 
   /**
    * Generate a unique encryption key for a chat
-   * PLACEHOLDER: In production, implement proper key exchange (e.g., Diffie-Hellman)
+   * 
+   * PLACEHOLDER: In production, implement proper key exchange:
+   * 1. Use Diffie-Hellman or ECDH for key agreement
+   * 2. Derive session keys using HKDF
+   * 3. Implement key rotation
+   * 4. Store keys securely (Keychain/Keystore)
+   * 
+   * @param chatId - The chat identifier
+   * @param userId1 - First participant ID
+   * @param userId2 - Second participant ID
    */
   generateChatKey(chatId: string, userId1: string, userId2: string): string {
+    // WARNING: This is NOT secure for production
+    // Real implementation should use proper key exchange protocol
     const combinedData = `${chatId}-${userId1}-${userId2}`;
     return CryptoJS.SHA256(combinedData).toString();
   }
@@ -64,6 +94,14 @@ class EncryptionService {
    */
   generateSalt(): string {
     return CryptoJS.lib.WordArray.random(128 / 8).toString();
+  }
+
+  /**
+   * Generate a secure random key
+   * Use this for generating unique chat keys in development
+   */
+  generateSecureKey(length: number = 32): string {
+    return CryptoJS.lib.WordArray.random(length).toString();
   }
 }
 

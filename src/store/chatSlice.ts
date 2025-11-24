@@ -1,24 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export interface Message {
-  id: string;
-  chatId: string;
-  senderId: string;
-  content: string;
-  timestamp: number;
-  status: 'sent' | 'delivered' | 'read';
-  reactions?: { emoji: string; userId: string }[];
-  isEncrypted?: boolean;
-  replyTo?: string;
-}
-
-export interface Chat {
-  id: string;
-  participantIds: string[];
-  lastMessage?: Message;
-  unreadCount: number;
-  isTyping: boolean;
-}
+import { Message, Chat } from '../types';
 
 interface ChatState {
   chats: Chat[];

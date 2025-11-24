@@ -1,43 +1,41 @@
-import { Twilio } from 'twilio';
-
 /**
  * Authentication Service for Phone Number Authentication with SMS
  * 
- * PLACEHOLDER: This is a basic setup. 
- * In production, implement server-side verification with Twilio or Firebase Auth.
+ * IMPORTANT SECURITY NOTE:
+ * This is a CLIENT-SIDE placeholder implementation.
+ * In production, ALL authentication operations MUST be handled server-side.
+ * 
+ * NEVER expose Twilio credentials in client-side code.
+ * The backend should handle:
+ * - SMS sending via Twilio
+ * - Code verification
+ * - JWT token generation
+ * - Token validation
+ * 
+ * This placeholder demonstrates the client-side flow only.
  */
 
-const TWILIO_ACCOUNT_SID = process.env.EXPO_PUBLIC_TWILIO_ACCOUNT_SID || '';
-const TWILIO_AUTH_TOKEN = process.env.EXPO_PUBLIC_TWILIO_AUTH_TOKEN || '';
-const TWILIO_VERIFY_SERVICE_SID = process.env.EXPO_PUBLIC_TWILIO_VERIFY_SERVICE_SID || '';
-
 class AuthService {
-  private client: Twilio | null = null;
-
-  constructor() {
-    // Note: In production, Twilio operations should be done server-side
-    // This is a placeholder implementation
-    if (TWILIO_ACCOUNT_SID && TWILIO_AUTH_TOKEN) {
-      try {
-        // Twilio should be used server-side only
-        console.warn('Twilio should be used server-side for security');
-      } catch (error) {
-        console.error('Error initializing Twilio:', error);
-      }
-    }
-  }
+  private readonly apiUrl = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000/api';
 
   /**
    * Send verification code to phone number
-   * PLACEHOLDER: Should be implemented server-side
+   * Makes an API call to the backend which handles Twilio integration
    */
   async sendVerificationCode(phoneNumber: string): Promise<boolean> {
     try {
-      // In production, make an API call to your backend
-      // Backend will use Twilio to send SMS
       console.log(`Sending verification code to: ${phoneNumber}`);
       
-      // Simulated API call
+      // In production, make an API call to your backend
+      // Example:
+      // const response = await fetch(`${this.apiUrl}/auth/send-code`, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ phoneNumber }),
+      // });
+      // return response.ok;
+
+      // Simulated API call for demonstration
       const response = await this.mockApiCall('/auth/send-code', {
         phoneNumber,
       });
@@ -51,15 +49,23 @@ class AuthService {
 
   /**
    * Verify the code sent to phone number
-   * PLACEHOLDER: Should be implemented server-side
+   * Makes an API call to the backend which validates with Twilio
    */
   async verifyCode(phoneNumber: string, code: string): Promise<{ success: boolean; token?: string }> {
     try {
-      // In production, make an API call to your backend
-      // Backend will verify the code with Twilio
       console.log(`Verifying code for: ${phoneNumber}`);
       
-      // Simulated API call
+      // In production, make an API call to your backend
+      // Example:
+      // const response = await fetch(`${this.apiUrl}/auth/verify-code`, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({ phoneNumber, code }),
+      // });
+      // const data = await response.json();
+      // return { success: response.ok, token: data.token };
+
+      // Simulated API call for demonstration
       const response = await this.mockApiCall('/auth/verify-code', {
         phoneNumber,
         code,
@@ -77,7 +83,7 @@ class AuthService {
 
   /**
    * Mock API call for demonstration
-   * Replace with actual API calls to your backend
+   * Replace with actual fetch/axios calls to your backend
    */
   private async mockApiCall(endpoint: string, data: any): Promise<any> {
     // Simulate network delay
@@ -93,14 +99,19 @@ class AuthService {
 
   /**
    * Get current user from token
-   * PLACEHOLDER: Should validate JWT server-side
+   * Makes an API call to the backend to validate token and get user data
    */
   async getCurrentUser(token: string): Promise<any> {
     try {
-      // In production, make an API call to your backend
-      // Backend will validate the token and return user data
-      console.log('Getting current user with token:', token);
+      console.log('Getting current user with token');
       
+      // In production, make an API call to your backend
+      // Example:
+      // const response = await fetch(`${this.apiUrl}/users/me`, {
+      //   headers: { 'Authorization': `Bearer ${token}` },
+      // });
+      // return response.json();
+
       // Simulated response
       return {
         id: 'user-' + Date.now(),
@@ -119,6 +130,11 @@ class AuthService {
   async logout(): Promise<void> {
     // Clear any stored tokens or user data
     console.log('Logging out user');
+    
+    // In production, you might want to:
+    // - Invalidate the token on the backend
+    // - Clear secure storage
+    // - Reset app state
   }
 }
 
