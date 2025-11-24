@@ -28,8 +28,8 @@ class AuthService {
         console.log(`Sending verification code to: ${phoneNumber}`);
       }
       
-      // In production, make an API call to your backend
-      // Example:
+      // TODO: Implement actual API call to backend
+      // Backend endpoint will handle Twilio SMS sending
       // const response = await fetch(`${this.apiUrl}/auth/send-code`, {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
@@ -59,8 +59,8 @@ class AuthService {
         console.log(`Verifying code for: ${phoneNumber}`);
       }
       
-      // In production, make an API call to your backend
-      // Example:
+      // TODO: Implement actual API call to backend
+      // Backend endpoint will validate the SMS code with Twilio
       // const response = await fetch(`${this.apiUrl}/auth/verify-code`, {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
@@ -111,14 +111,14 @@ class AuthService {
         console.log('Getting current user with token');
       }
       
-      // In production, make an API call to your backend
-      // Example:
+      // TODO: Implement actual API call to backend
+      // Backend endpoint will validate JWT and return user data
       // const response = await fetch(`${this.apiUrl}/users/me`, {
       //   headers: { 'Authorization': `Bearer ${token}` },
       // });
       // return response.json();
 
-      // Simulated response
+      // Simulated response for demonstration
       return {
         id: 'user-' + Date.now(),
         phoneNumber: '+998901234567',

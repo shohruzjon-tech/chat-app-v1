@@ -103,6 +103,8 @@ export const translations = {
       edit: 'Edit',
       search: 'Search',
       back: 'Back',
+      error: 'Error',
+      success: 'Success',
     },
   },
   ru: {
@@ -156,6 +158,8 @@ export const translations = {
       edit: 'Редактировать',
       search: 'Поиск',
       back: 'Назад',
+      error: 'Ошибка',
+      success: 'Успешно',
     },
   },
 };
