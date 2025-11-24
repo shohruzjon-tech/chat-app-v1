@@ -33,11 +33,11 @@ class WebSocketService {
     if (!this.socket) return;
 
     this.socket.on('connect', () => {
-      console.log('WebSocket connected');
+      // Connected to WebSocket server
     });
 
     this.socket.on('disconnect', () => {
-      console.log('WebSocket disconnected');
+      // Disconnected from WebSocket server
     });
 
     this.socket.on('message:new', (message: Message) => {
@@ -57,13 +57,18 @@ class WebSocketService {
     });
 
     this.socket.on('error', (error: Error) => {
-      console.error('WebSocket error:', error);
+      // WebSocket error occurred
+      if (__DEV__) {
+        console.error('WebSocket error:', error);
+      }
     });
   }
 
   sendMessage(message: Omit<Message, 'id' | 'timestamp' | 'status'>) {
     if (!this.socket?.connected) {
-      console.error('WebSocket not connected');
+      if (__DEV__) {
+        console.error('WebSocket not connected');
+      }
       return;
     }
 

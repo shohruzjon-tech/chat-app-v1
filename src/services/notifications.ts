@@ -47,7 +47,10 @@ class NotificationService {
       });
       
       this.expoPushToken = tokenData.data;
-      console.log('Push token:', this.expoPushToken);
+      
+      if (__DEV__) {
+        console.log('Push token:', this.expoPushToken);
+      }
 
       // Configure channel for Android
       if (Platform.OS === 'android') {

@@ -23,12 +23,13 @@ class EncryptionService {
    * Encrypt a message using AES encryption
    * WARNING: In production, use proper E2EE with unique per-chat keys
    * @param message - The message to encrypt
-   * @param key - The encryption key (should be unique per chat in production)
+   * @param key - The encryption key (must be at least 32 characters for AES-256)
    */
   encryptMessage(message: string, key: string): string {
     try {
-      if (!key || key.length < 16) {
-        throw new Error('Encryption key must be at least 16 characters');
+      // Ensure key is at least 32 characters for AES-256
+      if (!key || key.length < 32) {
+        throw new Error('Encryption key must be at least 32 characters for AES-256 security');
       }
       const encrypted = CryptoJS.AES.encrypt(message, key).toString();
       return encrypted;
@@ -41,12 +42,13 @@ class EncryptionService {
   /**
    * Decrypt a message using AES decryption
    * @param encryptedMessage - The encrypted message
-   * @param key - The encryption key (must match the encryption key)
+   * @param key - The encryption key (must be at least 32 characters for AES-256)
    */
   decryptMessage(encryptedMessage: string, key: string): string {
     try {
-      if (!key || key.length < 16) {
-        throw new Error('Decryption key must be at least 16 characters');
+      // Ensure key is at least 32 characters for AES-256
+      if (!key || key.length < 32) {
+        throw new Error('Decryption key must be at least 32 characters for AES-256 security');
       }
       const bytes = CryptoJS.AES.decrypt(encryptedMessage, key);
       const decrypted = bytes.toString(CryptoJS.enc.Utf8);

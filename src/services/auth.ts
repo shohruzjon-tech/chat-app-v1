@@ -24,7 +24,9 @@ class AuthService {
    */
   async sendVerificationCode(phoneNumber: string): Promise<boolean> {
     try {
-      console.log(`Sending verification code to: ${phoneNumber}`);
+      if (__DEV__) {
+        console.log(`Sending verification code to: ${phoneNumber}`);
+      }
       
       // In production, make an API call to your backend
       // Example:
@@ -53,7 +55,9 @@ class AuthService {
    */
   async verifyCode(phoneNumber: string, code: string): Promise<{ success: boolean; token?: string }> {
     try {
-      console.log(`Verifying code for: ${phoneNumber}`);
+      if (__DEV__) {
+        console.log(`Verifying code for: ${phoneNumber}`);
+      }
       
       // In production, make an API call to your backend
       // Example:
@@ -103,7 +107,9 @@ class AuthService {
    */
   async getCurrentUser(token: string): Promise<any> {
     try {
-      console.log('Getting current user with token');
+      if (__DEV__) {
+        console.log('Getting current user with token');
+      }
       
       // In production, make an API call to your backend
       // Example:
@@ -129,7 +135,9 @@ class AuthService {
    */
   async logout(): Promise<void> {
     // Clear any stored tokens or user data
-    console.log('Logging out user');
+    if (__DEV__) {
+      console.log('Logging out user');
+    }
     
     // In production, you might want to:
     // - Invalidate the token on the backend
