@@ -47,6 +47,9 @@ export default function ChatListScreen({ navigation }: ChatListScreenProps) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Chat App</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+          <Text style={styles.settingsButton}>⚙️</Text>
+        </TouchableOpacity>
       </View>
       <FlatList
         data={chats}
@@ -73,10 +76,17 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.md,
     paddingHorizontal: theme.spacing.lg,
     paddingTop: theme.spacing.xl,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   headerTitle: {
     fontSize: theme.fontSize.xxl,
     fontWeight: theme.fontWeight.bold,
+    color: theme.colors.textInverse,
+  },
+  settingsButton: {
+    fontSize: theme.fontSize.xxl,
     color: theme.colors.textInverse,
   },
   listContent: {

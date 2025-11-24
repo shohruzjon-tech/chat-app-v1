@@ -7,6 +7,7 @@ import { store, RootState } from './src/store';
 import AuthScreen from './src/screens/AuthScreen';
 import ChatListScreen from './src/screens/ChatListScreen';
 import ChatScreen from './src/screens/ChatScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 import websocketService from './src/services/websocket';
 import notificationService from './src/services/notifications';
 
@@ -42,6 +43,7 @@ function AppNavigator() {
           <>
             <Stack.Screen name="ChatList" component={ChatListScreen} />
             <Stack.Screen name="Chat" component={ChatScreen} />
+            <Stack.Screen name="Settings" component={SettingsScreen} />
           </>
         )}
       </Stack.Navigator>
